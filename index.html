@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpeakMasterPro - Rehearsal Deck</title>
+    <style>
+      /* Clean base reset styled to align with professional dark aesthetic themes */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0d0f17;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #f8fafc;
+        overflow: hidden;
+      }
+
+      /* Hidden helper classes for loading sequence */
+      .gatekeeper-hidden {
+        display: none !important;
+      }
+      
+      /* Absolutely centered lock screen card with immersive backdrop */
+      #gatekeeper-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #07040f 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+        padding: 1.5rem;
+        box-sizing: border-box;
+      }
+
+      .lock-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 2.5rem 2.25rem;
+        border-radius: 28px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      .lock-icon-container {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+      }
+
+      .lock-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, #ffffff, #d8b4fe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .lock-subtitle {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin: 0 0 2rem 0;
+        line-height: 1.5;
+        font-weight: 500;
+      }
+
+      .input-wrapper {
+        position: relative;
+        margin-bottom: 1.25rem;
+      }
+
+      .pass-input {
+        width: 100%;
+        padding: 14px 18px;
+        background: rgba(15, 23, 42, 0.65);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        color: #ffffff;
+        font-size: 1.05rem;
+        font-weight: 600;
+        outline: none;
+        box-sizing: border-box;
+        text-align: center;
+        letter-spacing: 0.08em;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .pass-input:focus {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.25);
+        background: rgba(15, 23, 42, 0.85);
+      }
+
+      .error-msg {
+        color: #f87171;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 0.6rem;
+        min-height: 1.25rem;
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .error-msg.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border: none;
+        border-radius: 14px;
+        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.1s ease, filter 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+      }
+
+      .submit-btn:hover {
+        filter: brightness(1.1);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+      }
+
+      .submit-btn:active {
+        transform: scale(0.98);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Access Control Gatekeeper -->
+    <div id="gatekeeper-overlay">
+      <div id="gatekeeper_card" class="lock-card">
+        <div class="lock-icon-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h2 class="lock-title">Access Locked</h2>
+        <p class="lock-subtitle">Please enter your authorization credential key below to launch SpeakMasterPro</p>
+        
+        <div class="input-wrapper">
+          <input type="password" id="pass_field_input" class="pass-input" placeholder="Type secret key here" autofocus />
+          <div id="error_container" class="error-msg">Incorrect key. Access denied.</div>
+        </div>
+        
+        <button id="gatekeeper_submit_btn" class="submit-btn" type="button">Enter Deck</button>
+      </div>
+    </div>
+
+    <!-- React App Root Container -->
+    <div id="root" class="gatekeeper-hidden"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <script>
+      // Plain text secure secret variable config
+      const SECRET_KEY = "Oge_Monolog_012";
+      const STORAGE_KEY = "speakmaster_shared_access_token";
+
+      const overlay = document.getElementById("gatekeeper-overlay");
+      const rootContainer = document.getElementById("root");
+      const input = document.getElementById("pass_field_input");
+      const button = document.getElementById("gatekeeper_submit_btn");
+      const errorLabel = document.getElementById("error_container");
+
+      // Validate presence of token inside standard localStorage API
+      function checkPersistentAccess() {
+        try {
+          if (localStorage.getItem(STORAGE_KEY) === SECRET_KEY) {
+            bypassLockScreen();
+          } else {
+            document.body.style.overflow = "hidden";
+          }
+        } catch (e) {
+          console.warn("Storage API disabled or unavailable. Falling back to active prompt.", e);
+        }
+      }
+
+      function bypassLockScreen() {
+        overlay.style.opacity = "0";
+        overlay.style.visibility = "hidden";
+        rootContainer.classList.remove("gatekeeper-hidden");
+        document.body.style.overflow = "auto";
+        // Remove overlay node completely after animations finalize to prevent DOM pollution
+        setTimeout(() => {
+          overlay.remove();
+        }, 500);
+      }
+
+      // Main authentication processor
+      function handleAuthentication() {
+        const value = input.value.trim();
+        if (value === SECRET_KEY) {
+          try {
+            localStorage.setItem(STORAGE_KEY, SECRET_KEY);
+          } catch (e) {
+            console.error("Local storage permission error", e);
+          }
+          bypassLockScreen();
+        } else {
+          // Display sleek feedback error
+          errorLabel.classList.add("visible");
+          input.style.borderColor = "#f87171";
+          input.select();
+        }
+      }
+
+      // Auto clear red error states when typing new key values
+      input.addEventListener("input", () => {
+        errorLabel.classList.remove("visible");
+        input.style.borderColor = "rgba(255, 255, 255, 0.1)";
+      });
+
+      // Submit on mouse/tap button action
+      button.addEventListener("click", handleAuthentication);
+
+      // Submit on physical or virtual Enter key inputs
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          handleAuthentication();
+        }
+      });
+
+      // Execute lock assessment logic immediately upon script parser execution
+      checkPersistentAccess();
+    </script>
+  </body>
+</html>
+
